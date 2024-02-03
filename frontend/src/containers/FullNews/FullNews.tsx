@@ -3,9 +3,11 @@ import { useAppDispatch, useAppSelector } from "../../app/Hooks";
 import { fetchOneNews } from "../../store/news/newsThunks";
 import { useParams } from "react-router-dom";
 import { selectOneNews } from "../../store/news/newsSlice";
+import DeleteIcon from "@mui/icons-material/Delete";
 import dayjs from "dayjs";
 import {
   Box,
+  Button,
   Card,
   CardActions,
   CardContent,
@@ -13,7 +15,10 @@ import {
   Typography,
 } from "@mui/material";
 import { selectComments } from "../../store/comments/commentsSlice";
-import { fetchComments } from "../../store/comments/commentsThunks";
+import {
+  deleteComment,
+  fetchComments,
+} from "../../store/comments/commentsThunks";
 import OneComment from "../../components/OneComment/OneComment";
 
 const FullNews = () => {
@@ -39,6 +44,11 @@ const FullNews = () => {
   let defaultImage =
     "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png";
 
+  const handleCommentDelete = async (commentId: string) => {
+    await dispatch(deleteComment({ commentId: commentId }));
+    await dispatch(fetchComments(id));
+  };
+
   let commentsBox = (
     <Typography variant="h3" sx={{ textAlign: "center" }}>
       No comments available
@@ -53,6 +63,7 @@ const FullNews = () => {
             key={comment.id}
             author={comment.author}
             content={comment.content}
+            onDelete={() => handleCommentDelete(comment.id)}
           />
         ))}
       </Box>

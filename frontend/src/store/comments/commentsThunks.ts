@@ -14,3 +14,16 @@ export const fetchComments = createAsyncThunk<
   const comments = commentsResponse.data;
   return comments;
 });
+
+export const deleteComment = createAsyncThunk<
+  void,
+  { commentId: string;},
+  { dispatch: AppDispatch }
+>("comments/deleteComment", async ({ commentId }, thunkAPI) => {
+  try {
+    await axiosApi.delete(`/comments/${commentId}`);
+    return;
+  } catch (error) {
+    return thunkAPI.rejectWithValue("Ошибка при удалении комментария");
+  }
+});
