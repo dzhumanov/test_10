@@ -7,7 +7,7 @@ const config = {
   publicPath: path.join(rootPath, "public"),
   mysql: {
     host: "localhost",
-    database: "coffeeshop",
+    database: "news",
     user: "root",
     password: "1qaz@WSX29",
   },
