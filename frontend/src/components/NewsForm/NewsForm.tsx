@@ -7,10 +7,12 @@ import { useAppDispatch, useAppSelector } from "../../app/Hooks";
 import { NewsMutation } from "../../types";
 import { createNews, fetchNews } from "../../store/news/newsThunks";
 import { selectNewsLoading } from "../../store/news/newsSlice";
+import { useNavigate } from "react-router-dom";
 
 const NewsForm = () => {
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector(selectNewsLoading);
+  const navigate = useNavigate();
 
   const [state, setState] = useState<NewsMutation>({
     title: "",
@@ -41,11 +43,17 @@ const NewsForm = () => {
     e.preventDefault();
     await dispatch(createNews(state));
     await dispatch(fetchNews);
+    navigate("/");
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Grid container direction="column" spacing={2} sx={{width: '50%', mx:"auto"}}>
+    <form onSubmit={handleSubmit} style={{ marginTop: "20px" }}>
+      <Grid
+        container
+        direction="column"
+        spacing={2}
+        sx={{ width: "50%", mx: "auto" }}
+      >
         <Grid item xs={6}>
           <TextField
             id="title"
@@ -54,7 +62,7 @@ const NewsForm = () => {
             value={state.title}
             onChange={inputChangeHandler}
             fullWidth
-            
+            required
           />
         </Grid>
         <Grid item xs={6}>
@@ -95,14 +103,6 @@ const NewsForm = () => {
             loading={isLoading}
             loadingPosition="start"
             startIcon={<SaveIcon />}
-            sx={{
-              backgroundColor: "#000",
-              border: "1px solid #2F3336",
-              "&:hover": {
-                backgroundColor: "#fff",
-                color: "#000",
-              },
-            }}
           >
             Post!
           </LoadingButton>

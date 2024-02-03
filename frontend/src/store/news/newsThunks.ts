@@ -42,3 +42,17 @@ export const createNews = createAsyncThunk(
     return response.data;
   }
 );
+
+
+export const deleteNews = createAsyncThunk<
+  void,
+  { newsId: string },
+  { dispatch: AppDispatch }
+>("comments/deleteComment", async ({ newsId }, thunkAPI) => {
+  try {
+    await axiosApi.delete(`/news/${newsId}`);
+    return;
+  } catch (error) {
+    return thunkAPI.rejectWithValue("Error deleting news");
+  }
+});

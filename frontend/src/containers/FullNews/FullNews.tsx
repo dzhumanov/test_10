@@ -3,23 +3,16 @@ import { useAppDispatch, useAppSelector } from "../../app/Hooks";
 import { fetchOneNews } from "../../store/news/newsThunks";
 import { useParams } from "react-router-dom";
 import { selectOneNews } from "../../store/news/newsSlice";
-import DeleteIcon from "@mui/icons-material/Delete";
 import dayjs from "dayjs";
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Typography,
-} from "@mui/material";
+import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { selectComments } from "../../store/comments/commentsSlice";
 import {
   deleteComment,
   fetchComments,
 } from "../../store/comments/commentsThunks";
 import OneComment from "../../components/OneComment/OneComment";
+import CommentsForm from "../../components/CommentsForm/CommentsForm";
+import { apiURL } from "../../constants";
 
 const FullNews = () => {
   const dispatch = useAppDispatch();
@@ -37,12 +30,16 @@ const FullNews = () => {
     if (id) {
       dispatch(fetchComments(id));
     }
-    console.log(comments);
   }, [dispatch, id]);
 
-  const formattedDate = dayjs(fullNews?.date).format("YYYY-MM-DD");
+  const formattedDate = dayjs(fullNews?.date).format("YYYY-MM-DD HH:mm:ss");
+
   let defaultImage =
     "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png";
+
+  if (fullNews?.image) {
+    defaultImage = apiURL + "/" + fullNews.image;
+  }
 
   const handleCommentDelete = async (commentId: string) => {
     await dispatch(deleteComment({ commentId: commentId }));
@@ -70,9 +67,11 @@ const FullNews = () => {
     );
   }
 
+  const idNews = id || "";
+
   return (
     <>
-      <Card sx={{ mb: "15px", width: "50%", mx: "auto" }}>
+      <Card sx={{ mb: "15px", width: "50%", mx: "auto", mt: "20px" }}>
         <CardMedia
           component="img"
           sx={{
@@ -96,6 +95,7 @@ const FullNews = () => {
           </Typography>
         </CardContent>
       </Card>
+      <CommentsForm idNews={idNews} />
       {commentsBox}
     </>
   );
