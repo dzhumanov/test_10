@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosApi from "../../axiosApi";
 import { AppDispatch } from "../../app/store";
-import { FullNewsType, News } from "../../types";
+import { FullNewsType, News, NewsMutation } from "../../types";
 
 export const fetchNews = createAsyncThunk<
   News[],
@@ -18,3 +18,23 @@ export const fetchOneNews = createAsyncThunk<FullNewsType, string, {dispatch: Ap
     const news = newsResponse.data;
     return news;
 })
+
+export const createNews = createAsyncThunk(
+  "news/create",
+  async (newsData: NewsMutation) => {
+    const formData = new FormData();
+    formData.append("content", newsData.content);
+    formData.append("title", newsData.title);
+    if (newsData.image) {
+      formData.append("image", newsData.image);
+    }
+
+    const response = await axiosApi.post("/news", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  }
+);

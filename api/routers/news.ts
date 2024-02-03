@@ -2,6 +2,7 @@ import { Router } from "express";
 import mysqlDb from "../mysqldb";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { NewsWithoutId } from "../types";
+import { imagesUpload } from "../multer";
 const newsRouter = Router();
 
 newsRouter.get("/", async (req, res) => {
@@ -27,7 +28,7 @@ newsRouter.get("/:id", async (req, res) => {
   res.send(newsItem);
 });
 
-newsRouter.post("/", async (req, res) => {
+newsRouter.post("/", imagesUpload.single("image"), async (req, res) => {
   const newsItem: NewsWithoutId = {
     title: req.body.title,
     content: req.body.content,

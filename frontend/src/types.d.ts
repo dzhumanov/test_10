@@ -12,3 +12,9 @@ export interface FullNewsType {
     date: Date;
     content: string;
 }
+
+export interface NewsMutation {
+    title: string;
+    content: string;
+    image: File | null;
+}
