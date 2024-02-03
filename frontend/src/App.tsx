@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import ToolbarHome from "./components/ToolbarHome/ToolbarHome";
 import Home from "./containers/Home/Home";
+import FullNews from "./containers/FullNews/FullNews";
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <div>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/news/:id" element={<FullNews />} />
           <Route path="/create" element={<Home />} />
 
           <Route
