@@ -19,7 +19,7 @@ commentsRouter.get("/", async (req, res) => {
 commentsRouter.post("/", async (req, res) => {
   const CommentItem: CommentsWithoutId = {
     newsId: req.body.newsId,
-    author: req.body.author || 'Anonymous',
+    author: req.body.author || "Anonymous",
     content: req.body.content,
   };
 

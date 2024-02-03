@@ -43,7 +43,6 @@ export const createNews = createAsyncThunk(
   }
 );
 
-
 export const deleteNews = createAsyncThunk<
   void,
   { newsId: string },

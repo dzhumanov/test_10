@@ -68,6 +68,7 @@ const CommentsForm: React.FC<Props> = ({ idNews }) => {
             name="content"
             value={state.content}
             onChange={inputChangeHandler}
+            required
             fullWidth
           />
         </Grid>

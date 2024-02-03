@@ -3,6 +3,7 @@ import ToolbarHome from "./components/ToolbarHome/ToolbarHome";
 import Home from "./containers/Home/Home";
 import FullNews from "./containers/FullNews/FullNews";
 import NewsForm from "./components/NewsForm/NewsForm";
+import { Typography } from "@mui/material";
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
 
           <Route
             path="*"
-            element={<h1 className="text-center">Not Found!</h1>}
+            element={<Typography variant="h1">Not found! 404</Typography>}
           />
         </Routes>
       </div>

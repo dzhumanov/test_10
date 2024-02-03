@@ -15,7 +15,6 @@ interface Props {
 }
 
 const OneComment: React.FC<Props> = ({ author, content, onDelete }) => {
-
   return (
     <Card sx={{ mb: "15px" }}>
       <CardContent>
@@ -27,7 +26,11 @@ const OneComment: React.FC<Props> = ({ author, content, onDelete }) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button onClick={onDelete} variant="outlined" startIcon={<DeleteIcon />}>
+        <Button
+          onClick={onDelete}
+          variant="outlined"
+          startIcon={<DeleteIcon />}
+        >
           Delete
         </Button>
       </CardActions>

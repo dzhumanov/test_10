@@ -47,8 +47,5 @@ export const commentsReducer = commentsSlice.reducer;
 export const selectComments = (state: RootState) => state.comments.comments;
 export const selectCommentsLoading = (state: RootState) =>
   state.comments.commentsLoading;
-export const selectOneCommentLoading = (state: RootState) => 
+export const selectOneCommentLoading = (state: RootState) =>
   state.comments.oneCommentLoading;
-
-
-
