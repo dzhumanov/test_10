@@ -12,14 +12,19 @@ const Home = () => {
 
   useEffect(() => {
     void dispatch(fetchNews());
-  }, [dispatch])
+  }, [dispatch]);
 
   return (
-    <Box sx={{width: '50%', mx:'auto'}}>
+    <Box sx={{ width: "50%", mx: "auto" }}>
       {news.map((newsone) => (
-        <OneNews key={newsone.id} title={newsone.title} image={newsone.image} date={newsone.date} id={newsone.id} />
+        <OneNews
+          key={newsone.id}
+          title={newsone.title}
+          image={newsone.image}
+          date={newsone.date}
+          id={newsone.id}
+        />
       ))}
-
     </Box>
   );
 };

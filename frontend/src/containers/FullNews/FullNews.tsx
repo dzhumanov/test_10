@@ -4,49 +4,90 @@ import { fetchOneNews } from "../../store/news/newsThunks";
 import { useParams } from "react-router-dom";
 import { selectOneNews } from "../../store/news/newsSlice";
 import dayjs from "dayjs";
-import { Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Typography,
+} from "@mui/material";
+import { selectComments } from "../../store/comments/commentsSlice";
+import { fetchComments } from "../../store/comments/commentsThunks";
+import OneComment from "../../components/OneComment/OneComment";
 
 const FullNews = () => {
-    const dispatch = useAppDispatch()
-    const { id } = useParams<{ id?: string }>();
-    const fullNews = useAppSelector(selectOneNews);
+  const dispatch = useAppDispatch();
+  const { id } = useParams<{ id?: string }>();
+  const fullNews = useAppSelector(selectOneNews);
+  const comments = useAppSelector(selectComments);
 
-    useEffect(() => {
-        if (id) {
-            dispatch(fetchOneNews(id));
-        }
-    }, [dispatch, id])
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchOneNews(id));
+    }
+  }, [dispatch, id]);
 
-    const formattedDate = dayjs(fullNews?.date).format('YYYY-MM-DD');
-    let defaultImage = 'https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png';
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchComments(id));
+    }
+    console.log(comments);
+  }, [dispatch, id]);
 
-    return(
+  const formattedDate = dayjs(fullNews?.date).format("YYYY-MM-DD");
+  let defaultImage =
+    "https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png";
 
-        <Card sx={{mb: '15px', width: '50%', mx:'auto'}}>
-            <CardMedia
-              component="img"
-              sx={{
-                display: "block",
-                width: "100%",
-                height: "auto",
-                maxWidth: "650px",
-                mx: "auto",
-              }}
-              image={defaultImage}
-            />
-            <CardContent>
-                <Typography gutterBottom variant="h4" component="div">
-                    {fullNews?.title}
-                </Typography>
-                <Typography variant="h6" component="div">
-                    {formattedDate}
-                </Typography>
-                <Typography variant="h5" component="div">
-                    {fullNews?.content}
-                </Typography>
-            </CardContent>
-        </Card>
-    )
-}
+  let commentsBox = (
+    <Typography variant="h3" sx={{ textAlign: "center" }}>
+      No comments available
+    </Typography>
+  );
+
+  if (comments.length > 0) {
+    commentsBox = (
+      <Box sx={{ width: "50%", mx: "auto" }}>
+        {comments.map((comment) => (
+          <OneComment
+            key={comment.id}
+            author={comment.author}
+            content={comment.content}
+          />
+        ))}
+      </Box>
+    );
+  }
+
+  return (
+    <>
+      <Card sx={{ mb: "15px", width: "50%", mx: "auto" }}>
+        <CardMedia
+          component="img"
+          sx={{
+            display: "block",
+            width: "100%",
+            height: "auto",
+            maxWidth: "650px",
+            mx: "auto",
+          }}
+          image={defaultImage}
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h4" component="div">
+            {fullNews?.title}
+          </Typography>
+          <Typography variant="h6" component="div">
+            {formattedDate}
+          </Typography>
+          <Typography variant="h5" component="div">
+            {fullNews?.content}
+          </Typography>
+        </CardContent>
+      </Card>
+      {commentsBox}
+    </>
+  );
+};
 
 export default FullNews;

@@ -8,16 +8,20 @@ export const fetchNews = createAsyncThunk<
   undefined,
   { dispatch: AppDispatch }
 >("news/fetchAll", async () => {
-    const newsResponse = await axiosApi.get<News[]>('/news');
-    const news = newsResponse.data;
-    return news;
+  const newsResponse = await axiosApi.get<News[]>("/news");
+  const news = newsResponse.data;
+  return news;
 });
 
-export const fetchOneNews = createAsyncThunk<FullNewsType, string, {dispatch: AppDispatch}>("news/fetchOne", async(id:string) => {
-    const newsResponse = await axiosApi.get<FullNewsType>(`/news/${id}`);
-    const news = newsResponse.data;
-    return news;
-})
+export const fetchOneNews = createAsyncThunk<
+  FullNewsType,
+  string,
+  { dispatch: AppDispatch }
+>("news/fetchOne", async (id: string) => {
+  const newsResponse = await axiosApi.get<FullNewsType>(`/news/${id}`);
+  const news = newsResponse.data;
+  return news;
+});
 
 export const createNews = createAsyncThunk(
   "news/create",
